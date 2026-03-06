@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Image Generator</title>
+
+<style>
+
+body{
+background:#111;
+color:white;
+text-align:center;
+font-family:Arial;
+}
+
+input{
+padding:10px;
+width:300px;
+}
+
+button{
+padding:10px 20px;
+cursor:pointer;
+}
+
+img{
+margin-top:20px;
+width:400px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>AI Image Generator 🎨</h2>
+
+<input id="prompt" placeholder="اكتب وصف الصورة">
+
+<br><br>
+
+<button onclick="gen()">Generate</button>
+
+<br>
+
+<img id="img">
+
+<script>
+
+async function gen(){
+
+let prompt = document.getElementById("prompt").value
+
+let r = await fetch("/generate",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({prompt:prompt})
+})
+
+let data = await r.json()
+
+if(data.image){
+document.getElementById("img").src = data.image
+}else{
+alert(data.error)
+}
+
+}
+
+</script>
+
+</body>
+</html>
